@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
-import "dotenv/config";
+const dotenv = require("dotenv");
+dotenv.config({ quiet: true });
 
 const DB_url = process.env.db_url;
-
 const connectToMongoDB = async () => {
   return mongoose
-    .connection(DB_url)
+    .connect(DB_url)
     .then(() => {
       console.log("Connected to MongoDB");
     })
