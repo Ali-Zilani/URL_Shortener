@@ -6,6 +6,7 @@ const { connectToMongoDB } = require("./dbConnection");
 
 // DB connection
 connectToMongoDB();
+
 //Home Route
 app.use("/", (req, res) => {
   req.name = "Mohammad Ali Zilani"; // adding stuff to request
