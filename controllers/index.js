@@ -4,14 +4,35 @@ const shortid = require("shortid");
 const generateNewShortURL = async (req, res) => {
   const body = req.body;
   if (!body.url) return res.status(400).json({ error: "URL is required" });
-  const shortID = shortid(8);
-  await URL.create({
-    shortId: shortID,
-    redirectURL: body.url,
-    visitHistory: [],
-  });
-  console.log("New short URL created:", shortID);
-  return res.status(201).json({ id: shortID });
+
+  try {
+    // Check if URL already exists
+    const existingEntry = await URL.findOne({ redirectURL: body.url });
+
+    if (existingEntry) {
+      return res.status(200).json({
+        message: "URL already exists",
+        id: existingEntry.shortId,
+      });
+    }
+
+    // Correct usage of shortid.generate()
+    const shortID = shortid.generate().slice(0, 8);
+
+    await URL.create({
+      shortId: shortID,
+      redirectURL: body.url,
+      visitHistory: [],
+    });
+
+    // If rendering a view with 'id', fix typo in variable name too
+    return res.render("home", { id: shortID }); // note: was 'shotID' typo
+    // Or return JSON:
+    // return res.status(201).json({ id: shortID });
+  } catch (err) {
+    console.error("Error creating short URL:", err);
+    return res.status(500).json({ message: `Error ${err}` });
+  }
 };
 
 const getAllUrls = async (req, res) => {
