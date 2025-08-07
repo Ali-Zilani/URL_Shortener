@@ -8,7 +8,7 @@ const { connectToMongoDB } = require("./dbConnection");
 connectToMongoDB();
 
 //Home Route
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
   req.name = "Mohammad Ali Zilani"; // adding stuff to request
   return res
     .status(200)
@@ -19,7 +19,6 @@ app.use("/", (req, res) => {
 app.use(express.json());
 // ROUTES
 app.use("/URL", urlRouter);
-
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
