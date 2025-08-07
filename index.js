@@ -3,7 +3,7 @@ const app = express();
 const PORT = 3001;
 const urlRouter = require("./routes/url.js");
 const { connectToMongoDB } = require("./dbConnection");
-
+const URL = require("./models/url.js");
 // DB connection
 connectToMongoDB();
 
@@ -13,6 +13,26 @@ app.get("/", (req, res) => {
   return res
     .status(200)
     .json({ message: `Welcome to the URL Shortener API made by ${req.name}` });
+});
+//SSR: Server Side Rendering
+app.set("view engine", "ejs");
+app.get("/test", async (req, res) => {
+  const allUrls = await URL.find({});
+  return res.end(`
+    <html>
+      <head></head>
+      <body>
+        <h2> Hey! This is server side rendering </h2>
+        <ol>
+        ${allUrls
+          .map(
+            (url) =>
+              `<li>${url.shortId}, ${url.redirectURL}, ${url.visitHistory.length} </li></br>`
+          )
+          .join("")}
+      </body>
+    </html>
+    `);
 });
 
 //middlewares
