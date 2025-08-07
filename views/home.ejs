@@ -3,11 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Home Page</title>
   </head>
   <body>
     <h1>
       Hey!! This is Server Side Rendering.. <br />Isn't exciting?? it is..
     </h1>
+    <% urls.forEach(url => { %>
+    <li>
+      <strong>Short ID:</strong> <%= url.shortId %>,
+      <strong>Redirect URL:</strong> <%= url.redirectURL %>,
+      <strong>Visit History Count:</strong> <%= url.visitHistory.length %>
+    </li>
+    <% }) %>
   </body>
 </html>
