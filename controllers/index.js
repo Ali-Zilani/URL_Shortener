@@ -51,8 +51,26 @@ const getOriginalUrlbyShortid = async (req, res) => {
   }
 };
 
+const getAnalystics = async (req, res) => {
+  const shortId = req.params.shortId;
+  if (!shortId) return res.status(400).json({ error: "Short ID is required" });
+  try {
+    const entry = await URL.findOne({ shortId });
+    if (!entry) return res.status(404).json({ error: "Short URL not found" });
+    const analytics = {
+      shortId: entry.shortId,
+      redirectURL: entry.redirectURL,
+      visitCount: entry.visitHistory.length,
+      visitHistory: entry.visitHistory,
+    };
+    return res.status(200).json(analytics);
+  } catch (err) {
+    return res.status(500).json({ message: `Internal Server Error ${err}` });
+  }
+};
 module.exports = {
   generateNewShortURL,
   getAllUrls,
   getOriginalUrlbyShortid,
+  getAnalystics,
 };
