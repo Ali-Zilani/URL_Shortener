@@ -4,6 +4,7 @@ const PORT = 3001;
 const urlRouter = require("./routes/url.js");
 const { connectToMongoDB } = require("./dbConnection");
 const URL = require("./models/url.js");
+const path = require("path");
 // DB connection
 connectToMongoDB();
 
@@ -16,23 +17,10 @@ app.get("/", (req, res) => {
 });
 //SSR: Server Side Rendering
 app.set("view engine", "ejs");
+app.set("views", path.resolve("./views"));
 app.get("/test", async (req, res) => {
   const allUrls = await URL.find({});
-  return res.end(`
-    <html>
-      <head></head>
-      <body>
-        <h2> Hey! This is server side rendering </h2>
-        <ol>
-        ${allUrls
-          .map(
-            (url) =>
-              `<li>${url.shortId}, ${url.redirectURL}, ${url.visitHistory.length} </li></br>`
-          )
-          .join("")}
-      </body>
-    </html>
-    `);
+  return res.render("home");
 });
 
 //middlewares
