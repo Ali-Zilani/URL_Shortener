@@ -15,6 +15,8 @@ app.use("/", (req, res) => {
     .json({ message: `Welcome to the URL Shortener API made by ${req.name}` });
 });
 
+//middlewares
+app.use(express.json());
 // ROUTES
 app.use("/URL", urlRouter);
 
