@@ -24,7 +24,35 @@ const getAllUrls = async (req, res) => {
   }
 };
 
+const getOriginalUrlbyShortid = async (req, res) => {
+  const shortId = req.params.shortId;
+  if (!shortId) return res.status(400).json({ error: "Short ID is required" });
+
+  try {
+    const entry = await URL.findOneAndUpdate(
+      { shortId },
+      { $push: { visitHistory: { timestamp: new Date() } } },
+      { new: true }
+    );
+    if (!entry) {
+      return res.status(404).json({ error: "Original URL not found" });
+    }
+
+    let redirectUrl = entry.redirectURL;
+    // Prepend https:// if missing
+    if (!redirectUrl.match(/^https?:\/\//i)) {
+      redirectUrl = `https://${redirectUrl}`;
+    }
+
+    return res.redirect(redirectUrl);
+  } catch (err) {
+    console.error("Error redirecting:", err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   generateNewShortURL,
   getAllUrls,
+  getOriginalUrlbyShortid,
 };
