@@ -7,8 +7,7 @@ const {
   getAnalystics,
 } = require("../controllers/index");
 
-router.post("/", generateNewShortURL);
-router.get("/", getAllUrls);
+router.route("/").get(getAllUrls).post(generateNewShortURL);
 router.get("/:shortId", getOriginalUrlbyShortid);
 router.get("/analytics/:shortId", getAnalystics);
 
