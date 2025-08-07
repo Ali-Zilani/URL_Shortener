@@ -19,6 +19,7 @@ app.get("/", (req, res) => {
 app.use(express.json());
 // ROUTES
 app.use("/URL", urlRouter);
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
