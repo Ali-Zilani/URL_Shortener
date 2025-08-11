@@ -6,6 +6,12 @@ const userSignUp = async (req, res) => {
   return res.render("home");
 };
 
+const getAllUsers = async (req, res) => {
+  const users = await User.find({});
+  return res.status(201).json(users);
+};
+
 module.exports = {
   userSignUp,
+  getAllUsers,
 };
