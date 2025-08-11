@@ -5,7 +5,7 @@ const {
   getAllUrls,
   getOriginalUrlbyShortid,
   getAnalystics,
-} = require("../controllers/index");
+} = require("../controllers/url");
 
 router.route("/").get(getAllUrls).post(generateNewShortURL);
 router.get("/:shortId", getOriginalUrlbyShortid);
