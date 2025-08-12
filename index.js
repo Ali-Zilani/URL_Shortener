@@ -8,6 +8,7 @@ const staticRoute = require("./routes/staticRouter.js");
 const userRoute = require("./routes/user.js");
 const cookieParser = require("cookie-parser");
 const { restrictToLoggedInUserOnly } = require("./middleware/auth.js");
+
 // DB connection
 connectToMongoDB();
 

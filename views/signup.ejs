@@ -16,5 +16,12 @@
       <input type="text" required name="password" />
       <button type="submit">SignUp</button>
     </form>
+    <% if (locals.error) { %>
+    <p style="color: red"><%= locals.error %></p>
+    <% } %>
+    <p>Already have an account? <a href="/login">Login</a></p>
+    <p>
+      <a href="/">Home</a>
+    </p>
   </body>
 </html>

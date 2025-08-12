@@ -4,6 +4,10 @@ const { setUser, getUser } = require("../service/auth"); // Assuming you have an
 
 const userSignUp = async (req, res) => {
   const { name, email, password } = req.body;
+
+  const user = await User.findOne({ email });
+  if (user) return res.render("signup", { error: "User already exists" });
+
   await User.create({ name, email, password });
   return res.redirect("/"); // Redirect to home page after successful signUp
 };
