@@ -7,7 +7,10 @@ const path = require("path");
 const staticRoute = require("./routes/staticRouter.js");
 const userRoute = require("./routes/user.js");
 const cookieParser = require("cookie-parser");
-const { restrictToLoggedInUserOnly } = require("./middleware/auth.js");
+const {
+  restrictToLoggedInUserOnly,
+  checkAuth,
+} = require("./middleware/auth.js");
 
 // DB connection
 connectToMongoDB();
@@ -22,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // ROUTES
 app.use("/URL", restrictToLoggedInUserOnly, urlRouter);
-app.use("/", staticRoute);
+app.use("/", checkAuth, staticRoute);
 app.use("/user", userRoute);
 
 // Start server

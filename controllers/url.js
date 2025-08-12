@@ -23,6 +23,7 @@ const generateNewShortURL = async (req, res) => {
       shortId: shortID,
       redirectURL: body.url,
       visitHistory: [],
+      createdBy: req.user._id, // req.user is set by auth middleware
     });
 
     // If rendering a view with 'id', fix typo in variable name too
