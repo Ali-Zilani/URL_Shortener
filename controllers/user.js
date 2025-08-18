@@ -24,7 +24,7 @@ const userLogIn = async (req, res) => {
 
   const token = setUser(user);
   //console.log("User logged in:", getUser(sessionId));
-  res.cookie("uid", token); // Set session cookie
+  res.cookie("uid", token, {maxAge: 60 * 60 * 1000}); // Set session cookie and expires after 1 hour
 
   return res.redirect("/"); // Redirect to home page after successful login
 };
