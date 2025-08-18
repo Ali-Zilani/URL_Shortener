@@ -1,14 +1,21 @@
-const mp = new Map();
+const jwt = require('jsonwebtoken');
+const dotenv = require("dotenv");
+dotenv.config({ quiet: true });
 
-const setUser = (id, user) => {
-  mp.set(id, user);
-};
+const key = process.env.SECRET_KEY; 
 
-const getUser = (id) => {
-  return mp.get(id);
-};
-
+const setUser = (user) => {
+  const payload = {
+    _id: user._id,
+    email: user.email,
+  };
+  return jwt.sign(payload, key);
+}
+const getUser = (token) => {
+  if(!token) return null;
+  return jwt.verify(token,key)
+}
 module.exports = {
   setUser,
-  getUser,
-};
+  getUser
+}

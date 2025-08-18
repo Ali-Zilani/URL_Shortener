@@ -22,10 +22,9 @@ const userLogIn = async (req, res) => {
   const user = await User.findOne({ email, password });
   if (!user) return res.render("login", { error: "Invalid email or password" });
 
-  const sessionId = uuidv4();
-  setUser(sessionId, user);
+  const token = setUser(user);
   //console.log("User logged in:", getUser(sessionId));
-  res.cookie("uid", sessionId, { httpOnly: true }); // Set session cookie
+  res.cookie("uid", token); // Set session cookie
 
   return res.redirect("/"); // Redirect to home page after successful login
 };
